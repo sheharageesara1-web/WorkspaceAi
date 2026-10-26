@@ -25,3 +25,10 @@
                     }
                     function l() {
                         console.log && (console.log.apply ? console.log.apply(console, arguments) : Function.prototype.apply.apply(console.log, [console, arguments])),
+                          console.trace && console.trace()
+                    }
+                    function s(o) {
+                        return "debug" === o && (o = "log"),
+                        typeof console !== t && ("trace" === o && n ? l : void 0 !== console[o] ? c(console, o) : void 0 !== console.log ? c(console, "log") : e)
+                    }
+
