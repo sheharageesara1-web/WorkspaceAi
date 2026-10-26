@@ -178,3 +178,12 @@
         9001: (e, t, r) => {
             /*! secound step
 
+        if (this.log = this.debug,
+                        typeof console === t && n < this.levels.SILENT)
+                            return "No console available for logging"
+                    }
+                    function u(e) {
+                        return function() {
+                            typeof console !== t && (a.call(this),
+                            this[e].apply(this, arguments))
+                        }
