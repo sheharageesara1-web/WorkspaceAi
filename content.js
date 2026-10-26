@@ -161,3 +161,20 @@
                     return s.noConflict = function() {
                         return typeof window !== t && window.log === s && (window.log = f),
                         s
+                              s
+                    }
+                    ,
+                    s.getLoggers = function() {
+                        return i
+                    }
+                    ,
+                    s.default = s,
+                    s
+                }
+                ,
+                void 0 === (i = "function" == typeof n ? n.call(t, r, t, e) : n) || (e.exports = i)
+            }()
+        },
+        9001: (e, t, r) => {
+            /*!
+
