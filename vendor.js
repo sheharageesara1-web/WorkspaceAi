@@ -32,3 +32,8 @@
                         typeof console !== t && ("trace" === o && n ? l : void 0 !== console[o] ? c(console, o) : void 0 !== console.log ? c(console, "log") : e)
                     }
 
+                     function a() {
+                        for (var n = this.getLevel(), r = 0; r < o.length; r++) {
+                            var i = o[r];
+                            this[i] = r < n ? e : this.methodFactory(i, n, this.name)
+                        }
