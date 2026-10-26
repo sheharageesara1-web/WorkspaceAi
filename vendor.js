@@ -19,7 +19,7 @@
                             return Function.prototype.bind.call(n, e)
                         } catch (t) {
                             return function() {
-                                return Function.prototype.apply.apply(n, [e, arguments])
+                                return Function.prototype.apply.apply(n, [e, arguments])   
                             }
                         }
                     }
