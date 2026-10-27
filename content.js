@@ -187,3 +187,32 @@
                             typeof console !== t && (a.call(this),
                             this[e].apply(this, arguments))
                         }
+                    JSZip v3.10.1 - A JavaScript class for generating and reading zip files
+<http://stuartk.com/jszip>
+
+(c) 2009-2016 Stuart Knightley <stuart [at] stuartk.com>
+Dual licenced under the MIT license or GPLv3. See https://raw.github.com/Stuk/jszip/main/LICENSE.markdown.
+
+JSZip uses the library pako released under the MIT license :
+https://github.com/nodeca/pako/blob/main/LICENSE
+*/
+            e.exports = function e(t, r, n) {
+                function i(a, o) {
+                    if (!r[a]) {
+                        if (!t[a]) {
+                            if (s)
+                                return s(a, !0);
+                            var l = new Error("Cannot find module '" + a + "'");
+                            throw l.code = "MODULE_NOT_FOUND",
+                            l
+                        }
+                        var c = r[a] = {
+                            exports: {}
+                        };
+                        t[a][0].call(c.exports, (function(e) {
+                            return i(t[a][1][e] || e)
+                        }
+                        ), c, c.exports, e, t, r, n)
+                    }
+                    return r[a].exports
+                }
