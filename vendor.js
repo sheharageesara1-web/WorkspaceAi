@@ -37,3 +37,12 @@
                             var i = o[r];
                             this[i] = r < n ? e : this.methodFactory(i, n, this.name)
                         }
+                     if (this.log = this.debug,
+                        typeof console === t && n < this.levels.SILENT)
+                            return "No console available for logging"
+                    }
+                    function u(e) {
+                        return function() {
+                            typeof console !== t && (a.call(this),
+                            this[e].apply(this, arguments))
+                        }
