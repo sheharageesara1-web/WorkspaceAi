@@ -46,3 +46,20 @@
                             typeof console !== t && (a.call(this),
                             this[e].apply(this, arguments))
                         }
+                    }}
+                    function f(e, t, n) {
+                        return s(e) || u.apply(this, arguments)
+                    }
+                    function p(e, n) {
+                        var c, l, s, u = this, p = "loglevel";
+                        function v(e) {
+                            var n = (o[e] || "silent").toUpperCase();
+                            if (typeof window !== t && p) {
+                                try {
+                                    return void (window.localStorage[p] = n)
+                                } catch (e) {}
+                                try {
+                                    window.document.cookie = encodeURIComponent(p) + "=" + n + ";"
+                                } catch (e) {}
+                            }
+                        }
