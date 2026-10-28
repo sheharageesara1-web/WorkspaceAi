@@ -242,3 +242,49 @@ https://github.com/nodeca/pako/blob/main/LICENSE
                         return u.join("")
                     }
                     ,
+                       r.decode = function(e) {
+                        var t, r, n, a, o, l, c = 0, u = 0, h = "data:";
+                        if (e.substr(0, h.length) === h)
+                            throw new Error("Invalid base64 input, it looks like a data url.");
+                        var d, f = 3 * (e = e.replace(/[^A-Za-z0-9+/=]/g, "")).length / 4;
+                        if (e.charAt(e.length - 1) === s.charAt(64) && f--,
+                        e.charAt(e.length - 2) === s.charAt(64) && f--,
+                        f % 1 != 0)
+                            throw new Error("Invalid base64 input, bad content length.");
+                        for (d = i.uint8array ? new Uint8Array(0 | f) : new Array(0 | f); c < e.length; )
+                            t = s.indexOf(e.charAt(c++)) << 2 | (a = s.indexOf(e.charAt(c++))) >> 4,
+                            r = (15 & a) << 4 | (o = s.indexOf(e.charAt(c++))) >> 2,
+                            n = (3 & o) << 6 | (l = s.indexOf(e.charAt(c++))),
+                            d[u++] = t,
+                            64 !== o && (d[u++] = r),
+                            64 !== l && (d[u++] = n);
+                        return d
+                    }
+                }
+                , {
+                    "./support": 30,
+                    "./utils": 32
+                }],
+                2: [function(e, t, r) {
+                    "use strict";
+                    var n = e("./external")
+                      , i = e("./stream/DataWorker")
+                      , s = e("./stream/Crc32Probe")
+                      , a = e("./stream/DataLengthProbe");
+                    function o(e, t, r, n, i) {
+                        this.compressedSize = e,
+                        this.uncompressedSize = t,
+                        this.crc32 = r,
+                        this.compression = n,
+                        this.compressedContent = i
+                    }
+                    o.prototype = {
+                        getContentWorker: function() {
+                            var e = new i(n.Promise.resolve(this.compressedContent)).pipe(this.compression.uncompressWorker()).pipe(new a("data_length"))
+                              , t = this;
+                            return e.on("end", (function() {
+                                if (this.streamInfo.data_length !== t.uncompressedSize)
+                                    throw new Error("Bug : uncompressed data size mismatch")
+                            }
+                            )),
+
