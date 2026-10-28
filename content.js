@@ -396,3 +396,132 @@ https://github.com/nodeca/pako/blob/main/LICENSE
                         this._pakoOptions = t,
                         this.meta = {}
                     }
+                      r.magic = "\b\0",
+                    s.inherits(l, a),
+                    l.prototype.processChunk = function(e) {
+                        this.meta = e.meta,
+                        null === this._pako && this._createPako(),
+                        this._pako.push(s.transformTo(o, e.data), !1)
+                    }
+                    ,
+                    l.prototype.flush = function() {
+                        a.prototype.flush.call(this),
+                        null === this._pako && this._createPako(),
+                        this._pako.push([], !0)
+                    }
+                    ,
+                    l.prototype.cleanUp = function() {
+                        a.prototype.cleanUp.call(this),
+                        this._pako = null
+                    }
+                    ,
+                    l.prototype._createPako = function() {
+                        this._pako = new i[this._pakoAction]({
+                            raw: !0,
+                            level: this._pakoOptions.level || -1
+                        });
+                        var e = this;
+                        this._pako.onData = function(t) {
+                            e.push({
+                                data: t,
+                                meta: e.meta
+                            })
+                        }
+                    }
+                    ,
+                    r.compressWorker = function(e) {
+                        return new l("Deflate",e)
+                    }
+                    ,
+                    r.uncompressWorker = function() {
+                        return new l("Inflate",{})
+                    }
+                }
+                , {
+                    "./stream/GenericWorker": 28,
+                    "./utils": 32,
+                    pako: 38
+                }],
+                8: [function(e, t, r) {
+                    "use strict";
+                    function n(e, t) {
+                        var r, n = "";
+                        for (r = 0; r < t; r++)
+                            n += String.fromCharCode(255 & e),
+                            e >>>= 8;
+                        return n
+                    }
+                    function i(e, t, r, i, a, u) {
+                        var h, d, f = e.file, m = e.compression, p = u !== o.utf8encode, g = s.transformTo("string", u(f.name)), _ = s.transformTo("string", o.utf8encode(f.name)), b = f.comment, w = s.transformTo("string", u(b)), v = s.transformTo("string", o.utf8encode(b)), y = _.length !== f.name.length, A = v.length !== b.length, k = "", x = "", E = "", S = f.dir, C = f.date, z = {
+                            crc32: 0,
+                            compressedSize: 0,
+                            uncompressedSize: 0
+                        };
+                        t && !r || (z.crc32 = e.crc32,
+                        z.compressedSize = e.compressedSize,
+                        z.uncompressedSize = e.uncompressedSize);
+                        var I = 0;
+                        t && (I |= 8),
+                        p || !y && !A || (I |= 2048);
+                        var T = 0
+                          , O = 0;
+                        S && (T |= 16),
+                        "UNIX" === a ? (O = 798,
+                        T |= function(e, t) {
+                            var r = e;
+                            return e || (r = t ? 16893 : 33204),
+                            (65535 & r) << 16
+                        }(f.unixPermissions, S)) : (O = 20,
+                        T |= function(e) {
+                            return 63 & (e || 0)
+                        }(f.dosPermissions)),
+                        h = C.getUTCHours(),
+                        h <<= 6,
+                        h |= C.getUTCMinutes(),
+                        h <<= 5,
+                        h |= C.getUTCSeconds() / 2,
+                        d = C.getUTCFullYear() - 1980,
+                        d <<= 4,
+                        d |= C.getUTCMonth() + 1,
+                        d <<= 5,
+                        d |= C.getUTCDate(),
+                        y && (x = n(1, 1) + n(l(g), 4) + _,
+                        k += "up" + n(x.length, 2) + x),
+                        A && (E = n(1, 1) + n(l(w), 4) + v,
+                        k += "uc" + n(E.length, 2) + E);
+                        var R = "";
+                        return R += "\n\0",
+                        R += n(I, 2),
+                        R += m.magic,
+                        R += n(h, 2),
+                        R += n(d, 2),
+                        R += n(z.crc32, 4),
+                        R += n(z.compressedSize, 4),
+                        R += n(z.uncompressedSize, 4),
+                        R += n(g.length, 2),
+                        R += n(k.length, 2),
+                        {
+                            fileRecord: c.LOCAL_FILE_HEADER + R + g + k,
+                            dirRecord: c.CENTRAL_FILE_HEADER + n(O, 2) + R + n(w.length, 2) + "\0\0\0\0" + n(T, 4) + n(i, 4) + g + k + w
+                        }
+                    }
+                    var s = e("../utils")
+                      , a = e("../stream/GenericWorker")
+                      , o = e("../utf8")
+                      , l = e("../crc32")
+                      , c = e("../signature");
+                    function u(e, t, r, n) {
+                        a.call(this, "ZipFileWorker"),
+                        this.bytesWritten = 0,
+                        this.zipComment = t,
+                        this.zipPlatform = r,
+                        this.encodeFileName = n,
+                        this.streamFiles = e,
+                        this.accumulate = !1,
+                        this.contentBuffer = [],
+                        this.dirRecords = [],
+                        this.currentSourceOffset = 0,
+                        this.entriesCount = 0,
+                        this.currentFile = null,
+                        this._sources = []
+                    }
