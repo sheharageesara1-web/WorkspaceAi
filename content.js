@@ -318,3 +318,81 @@ https://github.com/nodeca/pako/blob/main/LICENSE
                         }
                     },
 
+   r.DEFLATE = e("./flate")
+                }
+                , {
+                    "./flate": 7,
+                    "./stream/GenericWorker": 28
+                }],
+                4: [function(e, t, r) {
+                    "use strict";
+                    var n = e("./utils")
+                      , i = function() {
+                        for (var e, t = [], r = 0; r < 256; r++) {
+                            e = r;
+                            for (var n = 0; n < 8; n++)
+                                e = 1 & e ? 3988292384 ^ e >>> 1 : e >>> 1;
+                            t[r] = e
+                        }
+                        return t
+                    }();
+                    t.exports = function(e, t) {
+                        return void 0 !== e && e.length ? "string" !== n.getTypeOf(e) ? function(e, t, r, n) {
+                            var s = i
+                              , a = n + r;
+                            e ^= -1;
+                            for (var o = n; o < a; o++)
+                                e = e >>> 8 ^ s[255 & (e ^ t[o])];
+                            return -1 ^ e
+                        }(0 | t, e, e.length, 0) : function(e, t, r, n) {
+                            var s = i
+                              , a = n + r;
+                            e ^= -1;
+                            for (var o = n; o < a; o++)
+                                e = e >>> 8 ^ s[255 & (e ^ t.charCodeAt(o))];
+                            return -1 ^ e
+                        }(0 | t, e, e.length, 0) : 0
+                    }
+                }
+                , {
+                    "./utils": 32
+                }],
+                5: [function(e, t, r) {
+                    "use strict";
+                    r.base64 = !1,
+                    r.binary = !1,
+                    r.dir = !1,
+                    r.createFolders = !0,
+                    r.date = null,
+                    r.compression = null,
+                    r.compressionOptions = null,
+                    r.comment = null,
+                    r.unixPermissions = null,
+                    r.dosPermissions = null
+                }
+                , {}],
+                6: [function(e, t, r) {
+                    "use strict";
+                    var n = null;
+                    n = "undefined" != typeof Promise ? Promise : e("lie"),
+                    t.exports = {
+                        Promise: n
+                    }
+                }
+                , {
+                    lie: 37
+                }],
+                7: [function(e, t, r) {
+                    "use strict";
+                    var n = "undefined" != typeof Uint8Array && "undefined" != typeof Uint16Array && "undefined" != typeof Uint32Array
+                      , i = e("pako")
+                      , s = e("./utils")
+                      , a = e("./stream/GenericWorker")
+                      , o = n ? "uint8array" : "array";
+                    function l(e, t) {
+                        a.call(this, "FlateWorker/" + e),
+                        this._pako = null,
+                        this._pakoAction = e,
+                        this._pakoOptions = t,
+                        this.meta = {}
+                    }
