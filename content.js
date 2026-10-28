@@ -228,3 +228,17 @@ https://github.com/nodeca/pako/blob/main/LICENSE
                     r.encode = function(e) {
                         for (var t, r, i, a, o, l, c, u = [], h = 0, d = e.length, f = d, m = "string" !== n.getTypeOf(e); h < e.length; )
 
+                             f = d - h,
+                            i = m ? (t = e[h++],
+                            r = h < d ? e[h++] : 0,
+                            h < d ? e[h++] : 0) : (t = e.charCodeAt(h++),
+                            r = h < d ? e.charCodeAt(h++) : 0,
+                            h < d ? e.charCodeAt(h++) : 0),
+                            a = t >> 2,
+                            o = (3 & t) << 4 | r >> 4,
+                            l = 1 < f ? (15 & r) << 2 | i >> 6 : 64,
+                            c = 2 < f ? 63 & i : 64,
+                            u.push(s.charAt(a) + s.charAt(o) + s.charAt(l) + s.charAt(c));
+                        return u.join("")
+                    }
+                    ,
