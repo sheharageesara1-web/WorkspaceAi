@@ -288,3 +288,33 @@ https://github.com/nodeca/pako/blob/main/LICENSE
                             }
                             )),
 
+                              },
+                        getCompressedWorker: function() {
+                            return new i(n.Promise.resolve(this.compressedContent)).withStreamInfo("compressedSize", this.compressedSize).withStreamInfo("uncompressedSize", this.uncompressedSize).withStreamInfo("crc32", this.crc32).withStreamInfo("compression", this.compression)
+                        }
+                    },
+                    o.createWorkerFrom = function(e, t, r) {
+                        return e.pipe(new s).pipe(new a("uncompressedSize")).pipe(t.compressWorker(r)).pipe(new a("compressedSize")).withStreamInfo("compression", t)
+                    }
+                    ,
+                    t.exports = o
+                }
+                , {
+                    "./external": 6,
+                    "./stream/Crc32Probe": 25,
+                    "./stream/DataLengthProbe": 26,
+                    "./stream/DataWorker": 27
+                }],
+                3: [function(e, t, r) {
+                    "use strict";
+                    var n = e("./stream/GenericWorker");
+                    r.STORE = {
+                        magic: "\0\0",
+                        compressWorker: function() {
+                            return new n("STORE compression")
+                        },
+                        uncompressWorker: function() {
+                            return new n("STORE decompression")
+                        }
+                    },
+
