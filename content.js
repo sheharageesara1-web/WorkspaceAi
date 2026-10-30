@@ -525,3 +525,34 @@ https://github.com/nodeca/pako/blob/main/LICENSE
                         this.currentFile = null,
                         this._sources = []
                     }
+                          s.inherits(u, a),
+                    u.prototype.push = function(e) {
+                        var t = e.meta.percent || 0
+                          , r = this.entriesCount
+                          , n = this._sources.length;
+                        this.accumulate ? this.contentBuffer.push(e) : (this.bytesWritten += e.data.length,
+                        a.prototype.push.call(this, {
+                            data: e.data,
+                            meta: {
+                                currentFile: this.currentFile,
+                                percent: r ? (t + 100 * (r - n - 1)) / r : 100
+                            }
+                        }))
+                    }
+                    ,
+                    u.prototype.openedSource = function(e) {
+                        this.currentSourceOffset = this.bytesWritten,
+                        this.currentFile = e.file.name;
+                        var t = this.streamFiles && !e.file.dir;
+                        if (t) {
+                            var r = i(e, t, !1, this.currentSourceOffset, this.zipPlatform, this.encodeFileName);
+                            this.push({
+                                data: r.fileRecord,
+                                meta: {
+                                    percent: 0
+                                }
+                            })
+                        } else
+                            this.accumulate = !0
+                    }
+                    ,
