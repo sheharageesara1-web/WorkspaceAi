@@ -556,3 +556,48 @@ https://github.com/nodeca/pako/blob/main/LICENSE
                             this.accumulate = !0
                     }
                     ,
+                     u.prototype.closedSource = function(e) {
+                        this.accumulate = !1;
+                        var t = this.streamFiles && !e.file.dir
+                          , r = i(e, t, !0, this.currentSourceOffset, this.zipPlatform, this.encodeFileName);
+                        if (this.dirRecords.push(r.dirRecord),
+                        t)
+                            this.push({
+                                data: function(e) {
+                                    return c.DATA_DESCRIPTOR + n(e.crc32, 4) + n(e.compressedSize, 4) + n(e.uncompressedSize, 4)
+                                }(e),
+                                meta: {
+                                    percent: 100
+                                }
+                            });
+                        else
+                            for (this.push({
+                                data: r.fileRecord,
+                                meta: {
+                                    percent: 0
+                                }
+                            }); this.contentBuffer.length; )
+                                this.push(this.contentBuffer.shift());
+                        this.currentFile = null
+                    }
+                    ,
+                    u.prototype.flush = function() {
+                        for (var e = this.bytesWritten, t = 0; t < this.dirRecords.length; t++)
+                            this.push({
+                                data: this.dirRecords[t],
+                                meta: {
+                                    percent: 100
+                                }
+                            });
+                        var r = this.bytesWritten - e
+                          , i = function(e, t, r, i, a) {
+                            var o = s.transformTo("string", a(i));
+                            return c.CENTRAL_DIRECTORY_END + "\0\0\0\0" + n(e, 2) + n(e, 2) + n(t, 4) + n(r, 4) + n(o.length, 2) + o
+                        }(this.dirRecords.length, r, e, this.zipComment, this.encodeFileName);
+                        this.push({
+                            data: i,
+                            meta: {
+                                percent: 100
+                            }
+                        })
+                    }
