@@ -91,3 +91,246 @@
                             }
                         }
                         function w(e) {
+                            var t = u.levels[e];
+                            if (typeof t === t)
+
+                            
+                            var t = e;
+                            if ("string" == typeof t && void 0 !== u.levels[t.toUpperCase()] && (t = u.levels[t.toUpperCase()]),
+                            "number" == typeof t && t >= 0 && t <= u.levels.SILENT)
+                                return t;
+                            throw new TypeError("log.setLevel() called with invalid level: " + e)
+                        }
+                        "string" == typeof e ? p += ":" + e : "symbol" == typeof e && (p = void 0),
+                        u.name = e,
+                        u.levels = {
+                            TRACE: 0,
+                            DEBUG: 1,
+                            INFO: 2,
+                            WARN: 3,
+                            ERROR: 4,
+                            SILENT: 5
+                        },
+                        u.methodFactory = n || f,
+                        u.getLevel = function() {
+                            return null != s ? s : null != l ? l : c
+                        }
+                        ,
+                        u.setLevel = function(e, t) {
+                            return s = w(e),
+                            !1 !== t && v(s),
+                            a.call(u)
+                        }
+                        ,
+                        u.setDefaultLevel = function(e) {
+                            l = w(e),
+                            y() || u.setLevel(e, !1)
+                        }
+                        ,
+                        u.resetLevel = function() {
+                            s = null,
+                            d(),
+                            a.call(u)
+                        }
+                        ,
+                        u.enableAll = function(e) {
+                            u.setLevel(u.levels.TRACE, e)
+                        }
+                        ,
+                        u.disableAll = function(e) {
+                            u.setLevel(u.levels.SILENT, e)
+                        }
+                        ,
+                        u.rebuild = function() {
+                            if (i !== u && (c = w(i.getLevel())),
+                            a.call(u),
+                            i === u)
+                                for (var e in r)
+                                    r[e].rebuild()
+                        }
+                        ,
+                        c = w(i ? i.getLevel() : "WARN");
+                        var h = y();
+                        null != h && (s = w(h)),
+                        a.call(u)
+                    }
+                    (i = new p).getLogger = function(e) {
+                        if ("symbol" != typeof e && "string" != typeof e || "" === e)
+                            throw new TypeError("You must supply a name when creating a logger.");
+                        var t = r[e];
+                        return t || (t = r[e] = new p(e,i.methodFactory)),
+                        t
+                    }
+                    ;
+                    var v = typeof window !== t ? window.log : void 0;
+                    return i.noConflict = function() {
+                        return typeof window !== t && window.log === i && (window.log = v),
+                        i
+                    }
+                    ,
+                    i.getLoggers = function() {
+                        return r
+                    }
+                    ,
+                    i.default = i,
+                    i
+                }
+                ,
+                void 0 === (r = "function" == typeof o ? o.call(t, n, t, e) : o) || (e.exports = r)
+            }()
+        },
+        1343: e => {
+            "use strict";
+            var t = Object.prototype.hasOwnProperty
+              , n = "~";
+            function o() {}
+            function r(e, t, n) {
+                this.fn = e,
+                this.context = t,
+                this.once = n || !1
+            }
+            function i(e, t, o, i, c) {
+                if ("function" != typeof o)
+                    throw new TypeError("The listener must be a function");
+                var l = new r(o,i || e,c)
+                  , s = n ? n + t : t;
+                return e._events[s] ? e._events[s].fn ? e._events[s] = [e._events[s], l] : e._events[s].push(l) : (e._events[s] = l,
+                e._eventsCount++),
+                e
+            }
+            function c(e, t) {
+                0 === --e._eventsCount ? e._events = new o : delete e._events[t]
+            }
+            function l() {
+                this._events = new o,
+                this._eventsCount = 0
+            }
+            Object.create && (o.prototype = Object.create(null),
+            (new o).__proto__ || (n = !1)),
+            l.prototype.eventNames = function() {
+                var e, o, r = [];
+                if (0 === this._eventsCount)
+                    return r;
+                for (o in e = this._events)
+                    t.call(e, o) && r.push(n ? o.slice(1) : o);
+                return Object.getOwnPropertySymbols ? r.concat(Object.getOwnPropertySymbols(e)) : r
+            }
+            ,
+            l.prototype.listeners = function(e) {
+                var t = n ? n + e : e
+                  , o = this._events[t];
+                if (!o)
+                    return [];
+                if (o.fn)
+                    return [o.fn];
+                for (var r = 0, i = o.length, c = new Array(i); r < i; r++)
+                    c[r] = o[r].fn;
+                return c
+            }
+            ,
+            l.prototype.listenerCount = function(e) {
+                var t = n ? n + e : e
+                  , o = this._events[t];
+                return o ? o.fn ? 1 : o.length : 0
+            }
+            ,
+            l.prototype.emit = function(e, t, o, r, i, c) {
+                var l = n ? n + e : e;
+                if (!this._events[l])
+                    return !1;
+                var s, a, u = this._events[l], f = arguments.length;
+                if (u.fn) {
+                    switch (u.once && this.removeListener(e, u.fn, void 0, !0),
+                    f) {
+                    case 1:
+                        return u.fn.call(u.context),
+                        !0;
+                    case 2:
+                        return u.fn.call(u.context, t),
+                        !0;
+                    case 3:
+                        return u.fn.call(u.context, t, o),
+                        !0;
+                    case 4:
+                        return u.fn.call(u.context, t, o, r),
+                        !0;
+                    case 5:
+                        return u.fn.call(u.context, t, o, r, i),
+                        !0;
+                    case 6:
+                        return u.fn.call(u.context, t, o, r, i, c),
+                        !0
+                    }
+                    for (a = 1,
+                    s = new Array(f - 1); a < f; a++)
+                        s[a - 1] = arguments[a];
+                    u.fn.apply(u.context, s)
+                } else {
+                    var p, v = u.length;
+                    for (a = 0; a < v; a++)
+                        switch (u[a].once && this.removeListener(e, u[a].fn, void 0, !0),
+                        f) {
+                        case 1:
+                            u[a].fn.call(u[a].context);
+                            break;
+                        case 2:
+                            u[a].fn.call(u[a].context, t);
+                            break;
+                        case 3:
+                            u[a].fn.call(u[a].context, t, o);
+                            break;
+                        case 4:
+                            u[a].fn.call(u[a].context, t, o, r);
+                            break;
+                        default:
+                            if (!s)
+                                for (p = 1,
+                                s = new Array(f - 1); p < f; p++)
+                                    s[p - 1] = arguments[p];
+                            u[a].fn.apply(u[a].context, s)
+                        }
+                }
+                return !0
+            }
+            ,
+            l.prototype.on = function(e, t, n) {
+                return i(this, e, t, n, !1)
+            }
+            ,
+            l.prototype.once = function(e, t, n) {
+                return i(this, e, t, n, !0)
+            }
+            ,
+            l.prototype.removeListener = function(e, t, o, r) {
+                var i = n ? n + e : e;
+                if (!this._events[i])
+                    return this;
+                if (!t)
+                    return c(this, i),
+                    this;
+                var l = this._events[i];
+                if (l.fn)
+                    l.fn !== t || r && !l.once || o && l.context !== o || c(this, i);
+                else {
+                    for (var s = 0, a = [], u = l.length; s < u; s++)
+                        (l[s].fn !== t || r && !l[s].once || o && l[s].context !== o) && a.push(l[s]);
+                    a.length ? this._events[i] = 1 === a.length ? a[0] : a : c(this, i)
+                }
+                return this
+            }
+            ,
+            l.prototype.removeAllListeners = function(e) {
+                var t;
+                return e ? (t = n ? n + e : e,
+                this._events[t] && c(this, t)) : (this._events = new o,
+                this._eventsCount = 0),
+                this
+            }
+            ,
+            l.prototype.off = l.prototype.removeListener,
+            l.prototype.addListener = l.prototype.on,
+            l.prefixed = n,
+            l.EventEmitter = l,
+            e.exports = l
+        }
+        ,
