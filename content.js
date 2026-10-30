@@ -601,3 +601,29 @@ https://github.com/nodeca/pako/blob/main/LICENSE
                             }
                         })
                     }
+                         ,
+                    u.prototype.prepareNextSource = function() {
+                        this.previous = this._sources.shift(),
+                        this.openedSource(this.previous.streamInfo),
+                        this.isPaused ? this.previous.pause() : this.previous.resume()
+                    }
+                    ,
+                    u.prototype.registerPrevious = function(e) {
+                        this._sources.push(e);
+                        var t = this;
+                        return e.on("data", (function(e) {
+                            t.processChunk(e)
+                        }
+                        )),
+                        e.on("end", (function() {
+                            t.closedSource(t.previous.streamInfo),
+                            t._sources.length ? t.prepareNextSource() : t.end()
+                        }
+                        )),
+                        e.on("error", (function(e) {
+                            t.error(e)
+                        }
+                        )),
+                        this
+                    }
+                    ,
