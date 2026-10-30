@@ -627,3 +627,28 @@ https://github.com/nodeca/pako/blob/main/LICENSE
                         this
                     }
                     ,
+                           u.prototype.resume = function() {
+                        return !!a.prototype.resume.call(this) && (!this.previous && this._sources.length ? (this.prepareNextSource(),
+                        !0) : this.previous || this._sources.length || this.generatedError ? void 0 : (this.end(),
+                        !0))
+                    }
+                    ,
+                    u.prototype.error = function(e) {
+                        var t = this._sources;
+                        if (!a.prototype.error.call(this, e))
+                            return !1;
+                        for (var r = 0; r < t.length; r++)
+                            try {
+                                t[r].error(e)
+                            } catch (e) {}
+                        return !0
+                    }
+                    ,
+                    u.prototype.lock = function() {
+                        a.prototype.lock.call(this);
+                        for (var e = this._sources, t = 0; t < e.length; t++)
+                            e[t].lock()
+                    }
+                    ,
+                    t.exports = u
+                }
