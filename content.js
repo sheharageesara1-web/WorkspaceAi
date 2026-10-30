@@ -652,3 +652,100 @@ https://github.com/nodeca/pako/blob/main/LICENSE
                     ,
                     t.exports = u
                 }
+                  , {
+                    "../crc32": 4,
+                    "../signature": 23,
+                    "../stream/GenericWorker": 28,
+                    "../utf8": 31,
+                    "../utils": 32
+                }],
+                9: [function(e, t, r) {
+                    "use strict";
+                    var n = e("../compressions")
+                      , i = e("./ZipFileWorker");
+                    r.generateWorker = function(e, t, r) {
+                        var s = new i(t.streamFiles,r,t.platform,t.encodeFileName)
+                          , a = 0;
+                        try {
+                            e.forEach((function(e, r) {
+                                a++;
+                                var i = function(e, t) {
+                                    var r = e || t
+                                      , i = n[r];
+                                    if (!i)
+                                        throw new Error(r + " is not a valid compression method !");
+                                    return i
+                                }(r.options.compression, t.compression)
+                                  , o = r.options.compressionOptions || t.compressionOptions || {}
+                                  , l = r.dir
+                                  , c = r.date;
+                                r._compressWorker(i, o).withStreamInfo("file", {
+                                    name: e,
+                                    dir: l,
+                                    date: c,
+                                    comment: r.comment || "",
+                                    unixPermissions: r.unixPermissions,
+                                    dosPermissions: r.dosPermissions
+                                }).pipe(s)
+                            }
+                            )),
+                            s.entriesCount = a
+                        } catch (e) {
+                            s.error(e)
+                        }
+                        return s
+                    }
+                }
+                , {
+                    "../compressions": 3,
+                    "./ZipFileWorker": 8
+                }],
+                10: [function(e, t, r) {
+                    "use strict";
+                    function n() {
+                        if (!(this instanceof n))
+                            return new n;
+                        if (arguments.length)
+                            throw new Error("The constructor with parameters has been removed in JSZip 3.0, please check the upgrade guide.");
+                        this.files = Object.create(null),
+                        this.comment = null,
+                        this.root = "",
+                        this.clone = function() {
+                            var e = new n;
+                            for (var t in this)
+                                "function" != typeof this[t] && (e[t] = this[t]);
+                            return e
+                        }
+                    }
+                    (n.prototype = e("./object")).loadAsync = e("./load"),
+                    n.support = e("./support"),
+                    n.defaults = e("./defaults"),
+                    n.version = "3.10.1",
+                    n.loadAsync = function(e, t) {
+                        return (new n).loadAsync(e, t)
+                    }
+                    ,
+                    n.external = e("./external"),
+                    t.exports = n
+                }
+                , {
+                    "./defaults": 5,
+                    "./external": 6,
+                    "./load": 11,
+                    "./object": 15,
+                    "./support": 30
+                }],
+                11: [function(e, t, r) {
+                    "use strict";
+                    var n = e("./utils")
+                      , i = e("./external")
+                      , s = e("./utf8")
+                      , a = e("./zipEntries")
+                      , o = e("./stream/Crc32Probe")
+                      , l = e("./nodejsUtils");
+                    function c(e) {
+                        return new i.Promise((function(t, r) {
+                            var n = e.decompressed.getContentWorker().pipe(new o);
+                            n.on("error", (function(e) {
+                                r(e)
+                            }
