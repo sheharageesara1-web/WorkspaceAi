@@ -334,3 +334,62 @@
             e.exports = l
         }
         ,
+        1344: e => {4827: () => {
+            "use strict";
+            const e = window.trustedTypes?.createPolicy;
+            let t;
+            try {
+                t = window.trustedTypes?.createPolicy("default", {
+                    createHTML: e => e,
+                    createScript: e => e,
+                    createScriptURL: e => e
+                })
+            } catch {
+                t = void 0
+            }
+            window.trustedTypes && e && (window.trustedTypes.createPolicy = function(...n) {
+                return "default" === n[0] && t ? t : e.apply(window.trustedTypes, n)
+            }
+            )
+        }
+    }
+      , t = {};
+    function n(o) {
+        var r = t[o];
+        if (void 0 !== r)
+            return r.exports;
+        var i = t[o] = {
+            exports: {}
+        };
+        return e[o].call(i.exports, i, i.exports, n),
+        i.exports
+    }
+    n.n = e => {
+        var t = e && e.__esModule ? () => e.default : () => e;
+        return n.d(t, {
+            a: t
+        }),
+        t
+    }
+    ,
+    n.d = (e, t) => {
+        for (var o in t)
+            n.o(t, o) && !n.o(e, o) && Object.defineProperty(e, o, {
+                enumerable: !0,
+                get: t[o]
+            })
+    }
+    ,
+    n.o = (e, t) => Object.prototype.hasOwnProperty.call(e, t),
+    ( () => {
+        "use strict";
+        var e = n(363)
+          , t = n.n(e);
+        n(1343);
+        n(4827);
+        window.__emuOrigWindow = window,
+        window.pre_cl_loglevel__v3 = t()
+    }
+    )()
+}
+)();
